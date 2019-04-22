@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_addons_libreria,addons_libreria,model_libreria_book,,1,1,1,1
+access_addons_libreria_2,addons_libreria_2,model_libreria_venta,,1,1,1,1
+access_addons_libreria_3,addons_libreria_3,model_libro_proveedor,,1,1,1,1
+access_addons_libreria_4,addons_libreria_4,model_libreria_venta_line,,1,1,1,1

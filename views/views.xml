@@ -1,0 +1,76 @@
+<odoo>
+    <record model="ir.ui.view" id="libreria_book_form">
+      <field name="name">libreria.book.form</field>
+      <field name="model">libreria.book</field>
+      <field name="arch" type="xml">
+        <form string="Formulario entrada">
+          <sheet>
+          <field name="image" widget="image"/>
+            <group>
+            <group>
+              <field name="name"/>
+              <field name="active"/>
+              <field name="pages"/>
+              <field name="isbn"/>
+            </group>
+            <group>
+              <field name="date_order"/>
+              <field name="proveedor"/>
+            </group>
+            </group>
+            <notebook>
+              <page string="Detalle">
+                <group>
+                    <field name="description"/>
+                </group>
+              </page> 
+              <page string="Otros detalles">
+                <group>
+                    <field name="description2"/>
+                </group>
+              </page>
+              <page string="Precio">
+                <group>
+                  <group>
+                    <field name="price"/>
+                </group>
+                </group>
+              </page>
+              <page string="Inventario asignar">
+                <group>
+                  <group>
+                    <field name="inventario"/>
+                </group>
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="libreria_book_tree">
+      <field name="name">libreria.book.form</field>
+      <field name="model">libreria.book</field>
+      <field name="arch" type="xml">
+        <tree string="Formulario entrada">
+              <field name="name"/>
+              <field name="active"/>
+              <field name="pages"/>
+              <field name="isbn"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="libreria_book_action_window">
+      <field name="name">Agregar libro</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">libreria.book</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="libreria" id="menu_libreria" sequence="1"/>
+    <menuitem name="Libreria item" id="menu_libreria_category" sequence="1" parent="menu_libreria"/>
+    <menuitem name="Agregar Libros" id="menu_libreria_category_item" sequence="1" parent="menu_libreria_category" action="libreria_book_action_window"/>
+ 
+</odoo>

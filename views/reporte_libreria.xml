@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <record id="asistente_reporte_banco" model="ir.ui.view">
+            <field name="name">libreria.book.reporte_libros</field>
+            <field name="model">libro.asistente_reporte_libreria</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Seleccion proveedor y rango de fecha">
+                    <group>
+                        <group>
+                            <field name="proveedor_id" options="{'no_create':True}"/>
+                        </group>
+                        <group>
+                            <field name="fecha_desde"/>
+                            <field name="fecha_hasta"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Reporte" type="object" class="oe_highlight"/>
+                        <strong>|</strong> 
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <act_window id="window_reporte_libreria" name="Reporte libro" res_model="libro.asistente_reporte_libreria"  view_mode="form" target="new"/>
+        <menuitem action="window_reporte_libreria" id="menu_asistente_reporte_libro" parent="menu_libreria_category"/>
+        <report id="action_reporte_libreria" model="libro.asistente_reporte_libreria" string="Reporte Libro" report_type="qweb-pdf" name="libreria.reporte_libreria" file="libreria.reporte_libreria"/>
+</data>
+
+</odoo>
