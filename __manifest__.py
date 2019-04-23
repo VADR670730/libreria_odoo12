@@ -29,6 +29,7 @@
         'views/ventaLibro.xml',
         'views/reporte_libreria.xml',
         'views/reporte_libreria_pdf.xml',
+        'views/reporte_libreria_excel.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

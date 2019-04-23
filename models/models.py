@@ -34,7 +34,7 @@ class Libreria(models.Model):
     pages = fields.Integer(string="# paginas")
     isbn = fields.Char(string="ISBN", size=13)
     #date_order = fields.Datetime(string="Fecha ingreso",default=fields.Datetime.now,required=True)
-    date_order = fields.Date(string="Fecha ingreso",default=datetime.today(),required=True)
+    date_order = fields.Date(string="Fecha ingreso",default=str(datetime.today()),required=True)
     price = fields.Float(string="Precio", digits=(6,2),required=True,default=0.00)
     description = fields.Text(string="Descripcion")
     description2 = fields.Text(string="Descripcion")
@@ -101,13 +101,14 @@ class LibreriaVentaLine(models.Model):
 class AsistenteReporteLibreria(models.TransientModel):
     _name = "libro.asistente_reporte_libreria"
 
-    def _default_proveedor(self):
-        if len(self.env.context.get('active_ids',[]))>0:
-            return self.env.context.get('active_ids')[0]
-        else:
-            return None 
+    # def _default_proveedor(self):
+    #     if len(self.env.context.get('active_ids',[]))>0:
+    #         return self.env.context.get('active_ids')[0]
+    #     else:
+    #         return None
         
-    proveedor_id = fields.Many2one('libro.proveedor',string="Proveedor", required=True, default=_default_proveedor)
+    # proveedor_id = fields.Many2one('libro.proveedor',string="Proveedor", required=True, default=_default_proveedor)
+    proveedor_id = fields.Many2one('libro.proveedor',string="Proveedor", required=True)
     fecha_desde =fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
     fecha_hasta = fields.Date(string="Fecha hasta",required=True,default=lambda self: time.strftime('%Y-%m-01'))
 
@@ -118,7 +119,7 @@ class AsistenteReporteLibreria(models.TransientModel):
             'model':'libro.asistente_reporte_libreria',
             'form':self.read()[0]
         }
-        return self.env.ref('libreria.action_reporte_libreria').report_action(self,data=data)
+        return self.env.ref('libreria_odoo12.action_reporte_libreria').report_action(self, data=data)
 
 class ReporteLibreria(models.AbstractModel):
     _name = "report.libreria.reporte_libreria"
@@ -126,15 +127,15 @@ class ReporteLibreria(models.AbstractModel):
     def lineas(self,datos):
         lineas = []
 
-        for linea in self.env['libreria.book'].search([('proveedor','=',datos['proveedor_id'][0]),('date_order','<=',datos['fecha_desde']),('date_order','>=',datos['fecha_hasta'])],order='date_order'):
+        for linea in self.env['libreria.book'].search([('proveedor','=',datos['proveedor_id']),('date_order','<=',datos['fecha_desde']),('date_order','>=',datos['fecha_hasta'])],order='date_order'):
             detalle = {
-                'fecha':linea.date_order,
-                'name':linea.name,
-                'page':linea.pages,
-                'isbn':linea.isbn,
-                'description':linea.description,
-                'price':linea.price,
-                'moneda':self.env.user.company_id.currency_id
+                'fecha': str(linea.date_order),
+                'name': linea.name,
+                'page': linea.pages,
+                'isbn': linea.isbn,
+                'description': linea.description,
+                'price': linea.price,
+                'moneda': self.env.user.company_id.currency_id
             }
         
             lineas.append(detalle)
@@ -150,11 +151,12 @@ class ReporteLibreria(models.AbstractModel):
         docs = self.env[model].browse(self.env.context.get('active_ids',[]))
 
         return {
-            'doc_model':model,
-            'data':data['form'],
-            'docs':docs,
-            'lineas':self.lineas,
-            'moneda':self.env.user.company_id.currency_id
+            'doc_ids': self.ids,
+            'doc_model': model,
+            'data': data['form'],
+            'docs': docs,
+            'lineas': self.lineas,
+            'moneda': self.env.user.company_id.currency_id
         }
 
 

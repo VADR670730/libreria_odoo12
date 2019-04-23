@@ -8,7 +8,7 @@
 
                     <div class="row mt32">
                         <div class="col-xs-4">
-                            <strong>Proveedor:</strong> <span t-esc="data['proveedor']"/><br/>
+                            <strong>Proveedor:</strong> <span t-esc="data['proveedor'][1]"/><br/>
                         </div>
                         <div class="col-xs-4">
                             <strong>Fecha inicial:</strong> <span t-esc="data['fecha_desde']" t-options='{"widget": "date"}'/><br/>
