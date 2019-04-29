@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 from datetime import datetime
 from odoo.addons import decimal_precision as dp
-import time 
+
 
 # class addons/libreria(models.Model):
 #     _name = 'addons/libreria.addons/libreria'
@@ -96,67 +96,6 @@ class LibreriaVentaLine(models.Model):
             'quantity':self.quantity,
             'nameBook':self.nameBook,
             'partner':self.libreria_id.partner_id,
-        }
-
-class AsistenteReporteLibreria(models.TransientModel):
-    _name = "libro.asistente_reporte_libreria"
-
-    # def _default_proveedor(self):
-    #     if len(self.env.context.get('active_ids',[]))>0:
-    #         return self.env.context.get('active_ids')[0]
-    #     else:
-    #         return None
-        
-    # proveedor_id = fields.Many2one('libro.proveedor',string="Proveedor", required=True, default=_default_proveedor)
-    proveedor_id = fields.Many2one('libro.proveedor',string="Proveedor", required=True)
-    fecha_desde =fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
-    fecha_hasta = fields.Date(string="Fecha hasta",required=True,default=lambda self: time.strftime('%Y-%m-01'))
-
-    @api.multi
-    def print_report(self):
-        data = {
-            'ids':[],
-            'model':'libro.asistente_reporte_libreria',
-            'form':self.read()[0]
-        }
-        return self.env.ref('libreria_odoo12.action_reporte_libreria').report_action(self, data=data)
-
-class ReporteLibreria(models.AbstractModel):
-    _name = "report.libreria.reporte_libreria"
-
-    def lineas(self,datos):
-        lineas = []
-
-        for linea in self.env['libreria.book'].search([('proveedor','=',datos['proveedor_id']),('date_order','<=',datos['fecha_desde']),('date_order','>=',datos['fecha_hasta'])],order='date_order'):
-            detalle = {
-                'fecha': str(linea.date_order),
-                'name': linea.name,
-                'page': linea.pages,
-                'isbn': linea.isbn,
-                'description': linea.description,
-                'price': linea.price,
-                'moneda': self.env.user.company_id.currency_id
-            }
-        
-            lineas.append(detalle)
-        return lineas
-    
-    @api.model
-    def _get_report_values(self, docids,data = None):
-        return self.get_report_values(docids,data)
-    
-
-    def get_report_values(self,docids,data=None):
-        model = self.env.context.get('active_model')
-        docs = self.env[model].browse(self.env.context.get('active_ids',[]))
-
-        return {
-            'doc_ids': self.ids,
-            'doc_model': model,
-            'data': data['form'],
-            'docs': docs,
-            'lineas': self.lineas,
-            'moneda': self.env.user.company_id.currency_id
         }
 
 

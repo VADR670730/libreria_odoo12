@@ -20,14 +20,14 @@ class AsistenteReporteLibreriaExcel(models.TransientModel):
     name = fields.Char('Nombre archivo', size=32)
     archivo = fields.Binary('Archivo', filters='.xls')
 
-    @api.multi
-    def print_report(self):
-        data = {
-            'ids': [],
-            'model': 'libreria.asistente_reporte_libreria_excel',
-            'form': self.read()[0]
-        }
-        return self.env.ref('libreria_odoo12.action_report_libreria_xls').report_action(self, data=data)
+    # @api.multi
+    # def print_report(self):
+    #     data = {
+    #         'ids': [],
+    #         'model': 'libreria.asistente_reporte_libreria_excel',
+    #         'form': self.read()[0]
+    #     }
+    #     return self.env.ref('libreria_odoo12.action_report_libreria_xls').report_action(self, data=data)
 
     def print_report_excel(self):
         for w in self:

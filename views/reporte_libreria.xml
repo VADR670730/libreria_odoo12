@@ -27,7 +27,7 @@
 
          <act_window id="window_reporte_libreria" name="Reporte libro" res_model="libro.asistente_reporte_libreria"  view_mode="form" target="new"/>
         <menuitem action="window_reporte_libreria" id="menu_asistente_reporte_libro" parent="menu_libreria_category"/>
-        <report id="action_reporte_libreria" model="libro.asistente_reporte_libreria" string="Reporte Libro" report_type="qweb-pdf" name="libreria_odoo12.reporte_libreria"  />
+        <report id="action_reporte_libreria" model="libro.asistente_reporte_libreria" string="Reporte Libro" report_type="qweb-pdf" name="libreria_odoo12.reporte_libreria_pdf" file="libreria_odoo12.reporte_libreria" />
 </data>
 
 </odoo>
